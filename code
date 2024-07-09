@@ -1,0 +1,70 @@
+//Function to find the vertical order traversal of Binary Tree.
+    vector<int> verticalOrder(Node *root)
+    {
+        // //first we need to create a map to map horizontal distance with all nodes at same level
+        // map<int,map<int, vector<int>>>nodes;
+        // queue<pair<Node *,pair<int,int>>>q;//1st iny is for hd and second is for level
+        // vector<int>ans;
+        // if(root==NULL){
+        //     return ans;
+        // }
+        // q.push(make_pair(root,make_pair(0,0)));
+        // while(!q.empty()){
+        //      pair<Node*,pair<int,int>>temp=q.front();
+        //      Node *frontnode=temp.first;
+        //      //Horizontal ditance =hs
+        //      int hd=temp.second.first;
+        //      int level=temp.second.second;
+        //      //insert elements to map
+        //      nodes[hd][level].push_back(frontnode->data);
+        //      if(frontnode->left){
+        //          q.push(make_pair(frontnode->left,make_pair(hd-1,level+1)));
+        //      }
+        //      if(frontnode->right){
+        //          q.push(make_pair(frontnode->right,make_pair(hd+1,level+1)));
+        //      }
+        // }
+        // for(auto i:nodes){
+        //     for(auto j: i.second){
+        //         for(auto k:j.second){
+        //             ans.push_back(k);
+        //         }
+        //     }
+        // }
+        // return ans;
+        
+        //first int is for maintaining horizontal distance
+        //vector<int>here for nodes at that level
+         map<int,vector<int>> mp;
+        queue<pair<Node*,int>> q;
+        vector<int> ans;
+        if(!root)
+        return ans;
+        
+        q.push(make_pair(root,0));
+        while(!q.empty())
+        {
+            pair<Node*,int> p = q.front();
+            q.pop();
+            
+            Node *curr = p.first;
+            int hd = p.second;
+            
+            mp[hd].push_back(curr->data);
+            
+            if(curr->left)
+            q.push(make_pair(curr->left,hd-1));
+            if(curr->right)
+            q.push(make_pair(curr->right,hd+1));
+        }
+         for(auto it: mp)
+        {
+            for(auto i : it.second)
+            {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+        
+    }
+};
